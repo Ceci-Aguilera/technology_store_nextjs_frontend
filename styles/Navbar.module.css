@@ -1,0 +1,102 @@
+.dummy{
+    width:50px !important;
+  }
+  
+  .searchButton{
+    background-color: #00BFA5!important;
+    color: white!important;
+    font-weight: bold;
+    font-size: 20px;
+    border-color: #00BFA5;
+    /* font-weight: bold; */
+  }
+  
+  .searchButton:hover{
+    background-color: #00BFA5!important;
+    border-color: #00BFA5!important;
+    color: white!important;
+  }
+  
+  
+  .categoryDropdown{
+    background-color: #00BFA5!important;
+    color: white!important;
+    font-weight: bold;
+    font-size: 20px;
+    border-color: #00BFA5;
+  }
+  
+  .categoryDropdown:focus{
+    background-color: #00BFA5!important;
+    color: white!important;
+    border-color: #00BFA5!important;
+  }
+  
+  .categoryDropdown:hover{
+    background-color: #00BFA5!important;
+    color: white!important;
+  }
+  
+  .navbar{
+    /* background-color: #3b4456; */
+    background-color: #263238;
+    font-weight: bold;
+    font-size: 20px;
+    /* border-top: 20px solid #03DAC6 !important; */
+    border-bottom: 1px solid #00BFA5 !important;
+  }
+  
+  .brand{
+    color: #00BFA5!important;
+    /* color: #00BFA5!important; */
+    font-size:30px!important;
+    font-weight: bold !important;
+  }
+
+  .brandSpan{
+    color: white !important;
+  }
+  
+  .smallScreenBrand{
+    color: #00BFA5!important;
+    font-size:20px!important;
+    font-weight: bold !important;
+  }
+  
+  .navLink{
+    color:white !important;
+    /* color:#00BFA5 !important; */
+    font-size: 20px!important;
+   
+  }
+  
+  .navLink:hover{
+    color:#00BFA5 !important;
+    font-size: 20px;
+    text-decoration-color: #00BFA5;
+    text-decoration: underline 3px;
+    font-weight: bold!important;
+  }
+  
+  .inputGroup{
+    border-color: #00BFA5!important;
+  }
+  
+  .logoutButton{
+    color: #00BFA5 !important;
+    background-color: transparent!important;
+    border-color:transparent !important;
+    align-self: flex-start;
+    margin-left: -12px;
+    margin-top: 3px;
+  }
+  
+  .logoutButton:hover,
+  .logoutButton:focus,
+  .logoutButton:after{
+    color: #00BFA5;;
+    background-color: transparent !important;
+    border-color:transparent !important;
+    font-weight: 600 !important;
+    text-decoration: underline 3px #00BFA5 !important;
+  }
