@@ -19,7 +19,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import router from "next/router";
 
-const NextNavbar = ({ user }) => {
+const NextNavbar = ({ user, categories }) => {
   const [isUser, setIsUser] = useState(false);
 
   const accountString = (user) => {
@@ -30,10 +30,9 @@ const NextNavbar = ({ user }) => {
     setIsUser(user != null);
   });
 
-
-  return (
+  return (categories==null)?<></>:(
     <>
-      <Navbar expand="md" className={`navbar-expand-md ${style.navbar}`}>
+      <Navbar variant="dark" expand="md" className={`navbar-expand-md ${style.navbar}`}>
         <Nav.Link className={`navbar-brand d-lg-none ${style.smallScreenBrand}`} href="/">
           Technology <span className={style.brandSpan}>Store</span>
         </Nav.Link>
@@ -55,17 +54,17 @@ const NextNavbar = ({ user }) => {
               >
                 <option>All Categories</option>
                 {/* <Category /> */}
-                {/* {categories != null ? (
+                {categories != null ? (
                   categories.map((category, index) => {
                     return (
-                      <option value={index} key={index + 2}>
-                        {category["category_name"]}
+                      <option value={index} key={index+2}>
+                        {category["category_title"]}
                       </option>
                     );
                   })
                 ) : (
-                  <></>
-                )} */}
+                  <> <option>No categories</option></>
+                )}
               </FormControl>
 
               <FormControl

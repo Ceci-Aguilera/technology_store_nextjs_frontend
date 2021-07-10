@@ -1,14 +1,50 @@
-import Head from 'next/head'
-import Image from 'next/image'
-import styles from '../styles/Home.module.css'
+import Head from "next/head";
+import Image from "next/image";
+import styles from "../styles/Home.module.css";
 import NextNavbar from "../components/Navbar";
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from "react";
+import axios from "axios";
+import ProductsGrid from "../components/ProductsGrid";
+import ProductsSlides from "../components/ProductsSlides";
 
 export default function Home() {
+  const [user, setUser] = useState(null);
+  const [categories, setCategories] = useState(null);
+  const [products, setProducts] = useState(null);
+  const [mostSell, setMostSell] = useState(null);
 
-  const [user, setUser] = useState(null)
+  useEffect(async () => {
+   
 
-  useEffect(() => {setUser(null)}, []);
+    // LINK Prepare credentials for axios
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const simple_config = {
+      headers: {
+        "Content-Type": "application/json",
+      },
+    };
+
+    const token = window.localStorage.getItem("token");
+    if (token != null && token != undefined) {
+      config.headers["authorization"] = `Token ${token}`;
+      axios.defaults.headers.common["Authorization"];
+    }
+
+   // TODO try to Log in with saved credentials
+
+    // LINK try to load all products and categories
+    getCategories(simple_config, setCategories);
+
+    getProducts(simple_config, setProducts);
+
+    getMostSell(simple_config, setMostSell);
+    
+  }, []);
 
   return (
     <div className={styles.container}>
@@ -18,18 +54,47 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NextNavbar
-        user={user == null ? null : user}
-      />
+      <NextNavbar user={user == null ? null : user} categories={categories} />
 
       <main className={styles.main}>
-        <div className={styles.container}>
-          
-        </div>
-        
+        <ProductsSlides products={mostSell} />
+        <ProductsGrid products={products} />
       </main>
 
       {/* Here goes the Footer */}
     </div>
-  )
+  );
 }
+
+const getCategories = async (config, setCategories) => {
+  const categories_url = `http://127.0.0.1:8000/store/categories/`;
+
+  axios.get(categories_url, config).then(async (res) => {
+    const result = await res.data;
+    await setCategories(result);
+  }).catch((error) => {
+    console.log(error)
+  });
+};
+
+const getProducts = async (config, setProducts) => {
+  const products_url = `http://127.0.0.1:8000/store/products/`;
+
+  axios.get(products_url, config).then(async (res) => {
+    const result = await res.data;
+    await setProducts(result);
+  }).catch((error) => {
+    console.log(error)
+  });
+};
+
+const getMostSell = async (config, setMostSell) => {
+  const most_sell_url = `http://127.0.0.1:8000/store/products-most-sell/`;
+
+  axios.get(most_sell_url, config).then(async (res) => {
+    const result = await res.data;
+    await setMostSell(result);
+  }).catch((error) => {
+    console.log(error)
+  });
+};

@@ -12,8 +12,8 @@
   }
   
   .searchButton:hover{
-    background-color: #00BFA5!important;
-    border-color: #00BFA5!important;
+    background-color: #009682!important;
+    border-color: #009682!important;
     color: white!important;
   }
   
@@ -27,28 +27,25 @@
   }
   
   .categoryDropdown:focus{
-    background-color: #00BFA5!important;
+    background-color: #009682!important;
     color: white!important;
-    border-color: #00BFA5!important;
+    border-color: #009682!important;
   }
   
   .categoryDropdown:hover{
-    background-color: #00BFA5!important;
+    background-color: #009682!important;
     color: white!important;
   }
   
   .navbar{
-    /* background-color: #3b4456; */
     background-color: #263238;
     font-weight: bold;
     font-size: 20px;
-    /* border-top: 20px solid #03DAC6 !important; */
     border-bottom: 1px solid #00BFA5 !important;
   }
   
   .brand{
     color: #00BFA5!important;
-    /* color: #00BFA5!important; */
     font-size:30px!important;
     font-weight: bold !important;
   }
@@ -65,7 +62,6 @@
   
   .navLink{
     color:white !important;
-    /* color:#00BFA5 !important; */
     font-size: 20px!important;
    
   }
@@ -83,7 +79,7 @@
   }
   
   .logoutButton{
-    color: #00BFA5 !important;
+    color: white !important;
     background-color: transparent!important;
     border-color:transparent !important;
     align-self: flex-start;
