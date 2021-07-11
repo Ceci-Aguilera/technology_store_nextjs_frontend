@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import ProductsGrid from "../components/ProductsGrid";
 import ProductsSlides from "../components/ProductsSlides";
+import CategoriesGrid from "../components/CategoriesGrid";
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -14,8 +15,6 @@ export default function Home() {
   const [mostSell, setMostSell] = useState(null);
 
   useEffect(async () => {
-   
-
     // LINK Prepare credentials for axios
     const config = {
       headers: {
@@ -35,16 +34,20 @@ export default function Home() {
       axios.defaults.headers.common["Authorization"];
     }
 
-   // TODO try to Log in with saved credentials
+    // TODO try to Log in with saved credentials
 
     // LINK try to load all products and categories
     getCategories(simple_config, setCategories);
 
-    getProducts(simple_config, setProducts);
+    // getProducts(simple_config, setProducts);
+    getMostSell(simple_config, setProducts);
 
     getMostSell(simple_config, setMostSell);
-    
   }, []);
+
+  const onSearchClicked = async(e, category_id, searchKeyword) => {
+    await onSearchClickedHandler(e, category_id, searchKeyword, setProducts)
+  }
 
   return (
     <div className={styles.container}>
@@ -54,10 +57,11 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NextNavbar user={user == null ? null : user} categories={categories} />
+      <NextNavbar user={user == null ? null : user} categories={categories} onSearchClicked={onSearchClicked}/>
 
       <main className={styles.main}>
         <ProductsSlides products={mostSell} />
+        <CategoriesGrid categories={categories} />
         <ProductsGrid products={products} />
       </main>
 
@@ -69,32 +73,97 @@ export default function Home() {
 const getCategories = async (config, setCategories) => {
   const categories_url = `http://127.0.0.1:8000/store/categories/`;
 
-  axios.get(categories_url, config).then(async (res) => {
-    const result = await res.data;
-    await setCategories(result);
-  }).catch((error) => {
-    console.log(error)
-  });
+  axios
+    .get(categories_url, config)
+    .then(async (res) => {
+      const result = await res.data;
+      await setCategories(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 const getProducts = async (config, setProducts) => {
   const products_url = `http://127.0.0.1:8000/store/products/`;
 
-  axios.get(products_url, config).then(async (res) => {
-    const result = await res.data;
-    await setProducts(result);
-  }).catch((error) => {
-    console.log(error)
-  });
+  axios
+    .get(products_url, config)
+    .then(async (res) => {
+      const result = await res.data;
+      await setProducts(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 const getMostSell = async (config, setMostSell) => {
   const most_sell_url = `http://127.0.0.1:8000/store/products-most-sell/`;
 
-  axios.get(most_sell_url, config).then(async (res) => {
-    const result = await res.data;
-    await setMostSell(result);
-  }).catch((error) => {
-    console.log(error)
-  });
+  axios
+    .get(most_sell_url, config)
+    .then(async (res) => {
+      const result = await res.data;
+      await setMostSell(result);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const onSearchClickedHandler = async (e, category_id, searchKeyword, setProducts) => {
+  e.preventDefault();
+
+  var params = { params: { search_keyword: null } };
+
+  // LINK if Keyword
+  if (searchKeyword !== null && searchKeyword.replace(/\s/g, "").length) {
+    params = { params: { search_keyword: searchKeyword } };
+
+    var filter_url = "";
+    // LINK if category
+    if (category_id != -1 && category_id != null) {
+      filter_url = `http://127.0.0.1:8000/store/product-filter/${category_id}`;
+    }
+    // LINK no category
+    else {
+      filter_url = "http://127.0.0.1:8000/store/product-filter/";
+    }
+
+    axios
+      .get(filter_url, params, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(async (res) => {
+        const result = await res.data;
+        setProducts(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
+
+  // LINK if no keyword
+  else {
+    // LINK if category
+    if (category_id != -1 && category_id != null) {
+      filter_url = `http://127.0.0.1:8000/store/products-category/${category_id}`;
+    }
+    // LINK no category
+    else {
+      filter_url = "http://127.0.0.1:8000/store/products/";
+    }
+    axios
+      .get(filter_url, {
+        headers: { "Content-Type": "application/json" },
+      })
+      .then(async (res) => {
+        const result = await res.data;
+        setProducts(result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 };

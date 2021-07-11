@@ -19,8 +19,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import router from "next/router";
 
-const NextNavbar = ({ user, categories }) => {
+const NextNavbar = ({ user, categories, onSearchClicked }) => {
   const [isUser, setIsUser] = useState(false);
+  const [keyword, setKeyword] = useState("")
+  const [category, setCategory] = useState(null)
 
   const accountString = (user) => {
     return user === null ? "Log In" : `${user["first_name"]}`;
@@ -50,7 +52,7 @@ const NextNavbar = ({ user, categories }) => {
                 placeholder="Search"
                 className={`mr-2 ${style.categoryDropdown}`}
                 aria-label="Search"
-                onChange={(e) => {}}
+                onChange={(e) => setCategoryHandler(e.target.value, setCategory, categories)}
               >
                 <option>All Categories</option>
                 {/* <Category /> */}
@@ -72,10 +74,11 @@ const NextNavbar = ({ user, categories }) => {
                 placeholder="Search"
                 className="mr-2"
                 aria-label="Search"
-                onChange={(e) => {}}
+                onChange={(e) => setKeyword(e.target.value)}
               />
               <Button
                 className={style.searchButton}
+                onClick={(e) => onSearchClicked(e, category, keyword)}
               >
                 Search
               </Button>
@@ -123,3 +126,12 @@ const NextNavbar = ({ user, categories }) => {
 };
 
 export default NextNavbar;
+
+
+const setCategoryHandler = (value, setCategory, categories) => {
+  try {
+    setCategory(categories[value].id);
+  } catch {
+    setCategory(-1);
+  }
+}

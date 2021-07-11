@@ -26,6 +26,9 @@ const ProductsGrid = ({ products }) => {
     <></>
   ) : (
     <Container>
+      <Container className={styles.header}>
+        <span className={styles.headerSpan}>Top</span> Sells
+      </Container>
       <Row>
         {products.map((item, index) => {
           return (
@@ -51,9 +54,7 @@ const ProductsGrid = ({ products }) => {
                       );
                     }
                   })}
-                  <h4 className={styles.price}>
-                    ${item.total_price}
-                  </h4>
+                  <h4 className={styles.price}>${item.total_price}</h4>
                 </Card.Body>
                 <Card.Footer className={styles.cardFooter}>
                   <Row>
