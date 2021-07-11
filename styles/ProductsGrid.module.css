@@ -1,65 +1,70 @@
-.header{
-    color: white;
-    text-align: center;
-    font-size: 80px;
-    font-weight: bold;
-    margin-top: 100px;
+.header {
+  color: white;
+  text-align: center;
+  font-size: 80px;
+  font-weight: bold;
+  margin-top: 100px;
 }
 
-.headerSpan{
-    color:#00BFA5;
+.headerSpan {
+  color: #00bfa5;
 }
 
-.card{
-    background-color: white;
-    border: 5px solid #00BFA5;
-    margin-top: 50px;
-    margin-bottom: 50px;
+.card {
+  background-color: white;
+  border: 5px solid #00bfa5;
+  margin-top: 50px;
+  margin-bottom: 50px;
+  
 }
 
-.cardImage{
-    background-color: white;
-    width:80%;
-    height:200px;
-    margin-top: 10px;
-    margin-left: auto !important;
-    margin-right: auto !important;
-    margin-bottom: 5px;
+.card:hover .cardImage{
+  opacity: 0.8;
 }
 
-.cardHeader{
-    background-color: white;
-    border-color: #00BFA5;
-    font-size: 1.2em;
-    font-weight: bold;
-    text-align: center;
+.cardImage {
+  background-color: white;
+  width: 80%;
+  height: 200px;
+  margin-top: 10px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  margin-bottom: 5px;
 }
 
-.price{
-    text-align: center;
-    color: #009682;
+.cardHeader {
+  background-color: white;
+  border-color: #00bfa5;
+  font-size: 1.2em;
+  font-weight: bold;
+  text-align: center;
 }
 
-.cardFooter{
-    background-color: white;
-    border-color: #00BFA5;
+.price {
+  text-align: center;
+  color: #009682;
 }
 
-.cardButton{
-    background-color: #00BFA5;
-    color:white;
-    border-color: #00BFA5;
-    font-size: 1.1em;
-    font-weight: bold;
-    text-align: center;
-    width: 100%;
-    margin-top: 5px;
-    margin-bottom: 5px;
+.cardFooter {
+  background-color: white;
+  border-color: #00bfa5;
+}
+
+.cardButton {
+  background-color: #00bfa5;
+  color: white;
+  border-color: #00bfa5;
+  font-size: 1.1em;
+  font-weight: bold;
+  text-align: center;
+  width: 100%;
+  margin-top: 5px;
+  margin-bottom: 5px;
 }
 
 .cardButton:hover,
 .cardButton:focus,
-.cardButton:after{
-    background-color: #009682;
-    border-color: #009682;
+.cardButton:after {
+  background-color: #009682;
+  border-color: #009682;
 }

@@ -1,5 +1,6 @@
 .carousel {
   background-color: #00bfa5;
+  height: 80vh;
 }
 
 .carouselImage {
@@ -8,4 +9,6 @@
   margin-right: auto;
   max-width: 1000px;
   max-height: 70vh;
+  align-self: center;
+  margin-top: 50px;
 }

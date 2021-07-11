@@ -19,17 +19,29 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import router from "next/router";
 
-const NextNavbar = ({ user, categories, onSearchClicked }) => {
+const NextNavbarSimple = ({ user, login }) => {
   const [isUser, setIsUser] = useState(false);
-  const [keyword, setKeyword] = useState("");
-  const [category, setCategory] = useState(null);
+  const [linkTo, setLinkTo] = useState(false);
 
   const accountString = (user) => {
-    return user === null ? "Log In" : `${user["first_name"]}`;
+    if (user == null && login == true) {
+      return "Register";
+    } else if (user == null) {
+      return "Log In";
+    } else {
+      `${user["first_name"]}`;
+    }
   };
 
   useEffect(() => {
     setIsUser(user != null);
+    if (user == null && login) {
+      setLinkTo("/register");
+    } else if (user == null) {
+      setLinkTo("/login");
+    } else {
+      setLinkTo("/logout");
+    }
   });
 
   const LogoutHandler = async () => {
@@ -37,9 +49,7 @@ const NextNavbar = ({ user, categories, onSearchClicked }) => {
     router.reload();
   };
 
-  return categories == null ? (
-    <></>
-  ) : (
+  return (
     <>
       <Navbar
         variant="dark"
@@ -59,57 +69,12 @@ const NextNavbar = ({ user, categories, onSearchClicked }) => {
             Technology <span className={style.brandSpan}>Store</span>
           </Navbar.Brand>
 
-          <Form className="d-flex">
-            <InputGroup className={style.inputGroup}>
-              <FormControl
-                as="select"
-                placeholder="Search"
-                className={`mr-2 ${style.categoryDropdown}`}
-                aria-label="Search"
-                onChange={(e) =>
-                  setCategoryHandler(e.target.value, setCategory, categories)
-                }
-              >
-                <option>All Categories</option>
-                {/* <Category /> */}
-                {categories != null ? (
-                  categories.map((category, index) => {
-                    return (
-                      <option value={index} key={index + 2}>
-                        {category["category_title"]}
-                      </option>
-                    );
-                  })
-                ) : (
-                  <>
-                    {" "}
-                    <option>No categories</option>
-                  </>
-                )}
-              </FormControl>
-
-              <FormControl
-                type="search"
-                placeholder="Search"
-                className="mr-2"
-                aria-label="Search"
-                onChange={(e) => setKeyword(e.target.value)}
-              />
-              <Button
-                className={style.searchButton}
-                onClick={(e) => onSearchClicked(e, category, keyword)}
-              >
-                Search
-              </Button>
-            </InputGroup>
-          </Form>
-
           <Nav
             className="mr-auto my-2 my-lg-0"
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link className={style.navLink} href={isUser ? "/" : "/login"}>
+            <Nav.Link className={style.navLink} href={linkTo}>
               {accountString(user)}
             </Nav.Link>
 
@@ -146,15 +111,7 @@ const NextNavbar = ({ user, categories, onSearchClicked }) => {
   );
 };
 
-export default NextNavbar;
-
-const setCategoryHandler = (value, setCategory, categories) => {
-  try {
-    setCategory(categories[value].id);
-  } catch {
-    setCategory(-1);
-  }
-};
+export default NextNavbarSimple;
 
 const Logout = async () => {
   const config = {
@@ -173,7 +130,7 @@ const Logout = async () => {
   axios
     .post(logout_url, body, config)
     .then((res) => {
-      window.localStorage.removeItem("token")
+      window.localStorage.removeItem("token");
     })
     .catch((error) => {
       console.log(error);

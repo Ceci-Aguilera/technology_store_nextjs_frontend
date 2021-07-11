@@ -7,6 +7,7 @@ import axios from "axios";
 import ProductsGrid from "../components/ProductsGrid";
 import ProductsSlides from "../components/ProductsSlides";
 import CategoriesGrid from "../components/CategoriesGrid";
+import Footer from "../components/Footer";
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -34,7 +35,8 @@ export default function Home() {
       axios.defaults.headers.common["Authorization"];
     }
 
-    // TODO try to Log in with saved credentials
+    // LINK try to Log in with saved credentials
+    Login(config, setUser)
 
     // LINK try to load all products and categories
     getCategories(simple_config, setCategories);
@@ -65,9 +67,22 @@ export default function Home() {
         <ProductsGrid products={products} />
       </main>
 
-      {/* Here goes the Footer */}
+      <Footer />
     </div>
   );
+}
+
+const Login = async(config, setUser) => {
+  const auth_user = "http://127.0.0.1:8000/customer-account/check-auth/";
+  axios
+    .get(auth_user, config)
+    .then(async (res) => {
+      const result = await res.data;
+      setUser(result)
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 const getCategories = async (config, setCategories) => {

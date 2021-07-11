@@ -63,7 +63,6 @@
   .navLink{
     color:white !important;
     font-size: 20px!important;
-   
   }
   
   .navLink:hover{
@@ -81,6 +80,8 @@
   .logoutButton{
     color: white !important;
     background-color: transparent!important;
+    font-size: 20px!important;
+    font-weight: bold;
     border-color:transparent !important;
     align-self: flex-start;
     margin-left: -12px;
@@ -90,7 +91,7 @@
   .logoutButton:hover,
   .logoutButton:focus,
   .logoutButton:after{
-    color: #00BFA5;;
+    color: #00BFA5 !important;
     background-color: transparent !important;
     border-color:transparent !important;
     font-weight: 600 !important;
