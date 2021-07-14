@@ -1,0 +1,53 @@
+.card {
+  background-color: transparent;
+  color: white;
+  border-color: #00bfa5;
+  margin-top: 50px;
+}
+
+.cardHeader {
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  /* border-color: #00BFA5; */
+}
+
+.spanSectionHeader {
+  color: #00bfa5;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.SubSectionCol {
+  margin-top: 20px;
+}
+
+.addContainer {
+  display: flex;
+  justify-content: space-between;
+  width: 80%;
+  padding: 0%;
+  margin-left: 0;
+}
+
+.spanSectionSubHeader {
+  font-weight: bold;
+}
+
+.spanSectionSubHeaderAdd {
+  font-weight: bold;
+}
+
+.spanSectionSubHeaderAdd:hover{
+    color: #009682;
+    font-weight: bold;
+    cursor: pointer;
+  }
+
+.listGroup {
+  width: 80%;
+}
+
+.listGroupItem {
+  color: white;
+}

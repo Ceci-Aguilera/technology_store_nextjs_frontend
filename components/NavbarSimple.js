@@ -40,7 +40,7 @@ const NextNavbarSimple = ({ user, login }) => {
     } else if (user == null) {
       setLinkTo("/login");
     } else {
-      setLinkTo("/");
+      setLinkTo(`/account/${user.id}/manage`);
     }
   });
 

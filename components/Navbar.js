@@ -109,7 +109,7 @@ const NextNavbar = ({ user, categories, onSearchClicked }) => {
             style={{ maxHeight: "100px" }}
             navbarScroll
           >
-            <Nav.Link className={style.navLink} href={isUser ? "/" : "/login"}>
+            <Nav.Link className={style.navLink} href={isUser ? `/account/${user.id}/manage` : "/login"}>
               {accountString(user)}
             </Nav.Link>
 
