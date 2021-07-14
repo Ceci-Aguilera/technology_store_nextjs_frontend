@@ -30,7 +30,7 @@ export default function Home() {
 
     const order_id = window.localStorage.getItem("order_id");
 
-    var result = -1;
+
 
     if (token != null && token != undefined) {
       config.headers["authorization"] = `Token ${token}`;
@@ -38,14 +38,13 @@ export default function Home() {
 
       await getUser(config, setUser);
 
-      result = await getOrder(config, order_id, setOrder);
+      console.log("WT? Success o/");
+
+      await getOrder(config, order_id, setOrder);
     } else {
       getOrder(simple_config, order_id, setOrder);
     }
 
-    if (result == -1) {
-      getOrder(simple_config, order_id, setOrder);
-    }
   }, []);
 
   return (
@@ -56,10 +55,10 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NextNavbarSimple user={user} login={false}/>
+      <NextNavbarSimple user={user} login={false} />
 
       <main className={styles.main}>
-        <CartForm order={order} user={user}/>
+        <CartForm order={order} user={user} />
       </main>
 
       <Footer />
@@ -70,20 +69,45 @@ export default function Home() {
 const getOrder = async (config, order_id, setOrder) => {
   const products_url = `http://127.0.0.1:8000/store/cart/${order_id}/`;
 
+  const simple_config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
   axios
     .get(products_url, config)
     .then(async (res) => {
       const result = await res.data["Result"];
       if (result == "Error") {
-        return -1;
+        axios
+          .get(products_url, simple_config)
+          .then(async (res) => {
+            const result = await res.data["Result"];
+            if (result != "Error") {
+              await setOrder(result);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       } else {
         await setOrder(result);
-        return 1;
       }
     })
     .catch((error) => {
       console.log(error);
-      return -1;
+      axios
+        .get(products_url, simple_config)
+        .then(async (res) => {
+          const result = await res.data["Result"];
+          if (result != "Error") {
+            await setOrder(result);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     });
 };
 
@@ -99,3 +123,5 @@ const getUser = async (config, setUser) => {
       console.log(error);
     });
 };
+
+// const deleteItem = async(config, )
