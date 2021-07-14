@@ -30,8 +30,6 @@ export default function Home() {
 
     const order_id = window.localStorage.getItem("order_id");
 
-
-
     if (token != null && token != undefined) {
       config.headers["authorization"] = `Token ${token}`;
       axios.defaults.headers.common["Authorization"];
@@ -44,8 +42,15 @@ export default function Home() {
     } else {
       getOrder(simple_config, order_id, setOrder);
     }
-
   }, []);
+
+  const deleteItemHandler = async (item_id) => {
+    await deleteItem(order.id, item_id, setOrder);
+  };
+
+  const deleteOrderHandler = async () => {
+    await deleteOrder(order.id, setOrder);
+  };
 
   return (
     <div className={styles.container}>
@@ -58,7 +63,12 @@ export default function Home() {
       <NextNavbarSimple user={user} login={false} />
 
       <main className={styles.main}>
-        <CartForm order={order} user={user} />
+        <CartForm
+          order={order}
+          user={user}
+          deleteItem={deleteItemHandler}
+          deleteOrder={deleteOrderHandler}
+        />
       </main>
 
       <Footer />
@@ -124,4 +134,120 @@ const getUser = async (config, setUser) => {
     });
 };
 
-// const deleteItem = async(config, )
+const deleteItem = async (id, item_id, setOrder) => {
+  const products_url = `http://127.0.0.1:8000/store/cart/delete/${id}/${item_id}/`;
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const simple_config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const token = window.localStorage.getItem("token");
+
+  if (token != null && token != undefined) {
+    config.headers["authorization"] = `Token ${token}`;
+    axios.defaults.headers.common["Authorization"];
+  }
+
+  const body = {};
+
+  axios
+    .put(products_url, body, config)
+    .then(async (res) => {
+      const result = await res.data["Result"];
+      if (result == "Error") {
+        axios
+          .put(products_url, body, simple_config)
+          .then(async (res) => {
+            const result = await res.data["Result"];
+            if (result != "Error") {
+              await setOrder(result);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        await setOrder(result);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      axios
+        .put(products_url, body, simple_config)
+        .then(async (res) => {
+          const result = await res.data["Result"];
+          if (result != "Error") {
+            await setOrder(result);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+};
+
+const deleteOrder = async (id, setOrder) => {
+  const products_url = `http://127.0.0.1:8000/store/cart/${id}/`;
+
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const simple_config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const token = window.localStorage.getItem("token");
+
+  if (token != null && token != undefined) {
+    config.headers["authorization"] = `Token ${token}`;
+    axios.defaults.headers.common["Authorization"];
+  }
+
+  axios
+    .delete(products_url, config)
+    .then(async (res) => {
+      const result = await res.data["Result"];
+      if (result == "Error") {
+        axios
+          .delete(products_url, simple_config)
+          .then(async (res) => {
+            const result = await res.data["Result"];
+            if (result != "Error") {
+              await setOrder(result);
+            }
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      } else {
+        await setOrder(result);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+      axios
+        .delete(products_url, simple_config)
+        .then(async (res) => {
+          const result = await res.data["Result"];
+          if (result != "Error") {
+            await setOrder(result);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    });
+};
