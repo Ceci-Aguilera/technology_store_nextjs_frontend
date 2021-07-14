@@ -1,21 +1,22 @@
 import Head from "next/head";
 import Image from "next/image";
-import styles from "../../../../styles/Home.module.css";
+import styles from "../../../../../styles/Home.module.css";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Footer from "../../../../components/Footer";
-import NextNavbarSimple from "../../../../components/NavbarSimple";
-import AccountInfoForm from "../../../../components/AccountInfoForm";
+import Footer from "../../../../../components/Footer";
+import NextNavbarSimple from "../../../../../components/NavbarSimple";
 import router from "next/router";
 import { useRouter } from "next/router";
+import EditAddressForm from "../../../../../components/EditAddressForm";
 
 export default function AccountInfo() {
   const [user, setUser] = useState(null);
   const router = useRouter();
   const { id } = router.query;
+  const { address_id } = router.query;
   const [user_id, setUser_id] = useState(null);
-  const [shipping_addresses, setShippingAddresses] = useState(null);
-  const [billing_addresses, setBillingAddresses] = useState(null);
+  const [add_id, setAdd_id] = useState(null);
+  const [address, setAddress] = useState(null);
 
   useEffect(async () => {
     var temp_id;
@@ -28,12 +29,23 @@ export default function AccountInfo() {
       setUser_id(temp_id);
     }
 
+    var temp_add_id;
+    if (address_id != undefined && address_id != null) {
+      window.localStorage.setItem("address_id", address_id);
+      temp_add_id = address_id;
+      setAdd_id(temp_add_id);
+    } else {
+      temp_add_id = window.localStorage.getItem("address_id");
+      setAdd_id(temp_add_id);
+    }
+
     await getUser(setUser);
-    await getAddresses(setShippingAddresses, setBillingAddresses);
+    await getAddress(temp_add_id, setAddress);
   }, []);
 
+  const updateAddress = async () => {};
 
-  return user == null ? (
+  return user == null || address == null ? (
     <div></div>
   ) : (
     <div className={styles.container}>
@@ -46,13 +58,8 @@ export default function AccountInfo() {
       <NextNavbarSimple user={user == null ? null : user} login={true} />
 
       <main className={styles.main}>
-        <AccountInfoForm
-          user={user}
-          shipping_addresses={shipping_addresses}
-          billing_addresses={billing_addresses}
-        />
+        <EditAddressForm address={address} updateAddress={updateAddress} />
       </main>
-
       <Footer />
     </div>
   );
@@ -83,7 +90,7 @@ const getUser = async (setUser) => {
     });
 };
 
-const getAddresses = async (setShippingAddresses, setBillingAddresses) => {
+const getAddress = async (id, setAddress) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -95,14 +102,13 @@ const getAddresses = async (setShippingAddresses, setBillingAddresses) => {
   config.headers["authorization"] = `Token ${token}`;
   axios.defaults.headers.common["Authorization"];
 
-  const auth_user = "http://127.0.0.1:8000/customer-account/user-addresses/";
+  const address_url = `http://127.0.0.1:8000/customer-account/manage-address/${id}/`;
   axios
-    .get(auth_user, config)
+    .get(address_url, config)
     .then(async (res) => {
-      const shipping_addresses = await res.data["Shipping_addresses"];
-      const billing_addresses = await res.data["Billing_addresses"];
-      setShippingAddresses(shipping_addresses);
-      setBillingAddresses(billing_addresses);
+      const result = await res.data;
+      setAddress(result);
+      return result;
     })
     .catch((error) => {
       console.log(error);

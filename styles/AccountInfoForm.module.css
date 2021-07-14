@@ -9,7 +9,6 @@
   font-size: 30px;
   font-weight: bold;
   text-align: center;
-  /* border-color: #00BFA5; */
 }
 
 .spanSectionHeader {
@@ -50,4 +49,18 @@
 
 .listGroupItem {
   color: white;
+  display: flex;
+  justify-content: space-between;
+}
+
+.addP{
+  margin:0 !important;
+}
+
+.SpanAddListItem{
+  font-weight: bold;
+}
+
+.listGroupItem:hover .SpanAddListItem{
+  font-size: 1.1em;
 }

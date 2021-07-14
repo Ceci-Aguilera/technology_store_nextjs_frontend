@@ -22,7 +22,12 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import router from "next/router";
 
-const AccountInfoForm = ({ user, shipping_addresses, billing_addresses }) => {
+const AccountInfoForm = ({
+  user,
+  shipping_addresses,
+  billing_addresses,
+  onAddressClick,
+}) => {
   useEffect(() => {});
 
   return user == null ? (
@@ -62,23 +67,31 @@ const AccountInfoForm = ({ user, shipping_addresses, billing_addresses }) => {
                   <ListGroup className={styles.listGroup}>
                     {shipping_addresses.map((add, index) => {
                       return (
-                        <ListGroupItem
-                          style={{
-                            backgroundColor:
-                              add.default == true ? "#009682" : "transparent",
-                          }}
-                          className={styles.listGroupItem}
+                        <Link
+                          key={index}
+                          href={`/account/${user.id}/manage-address/${add.id}/`}
                         >
-                          {add.street_address +
-                            " " +
-                            add.apartment_address +
-                            " " +
-                            add.state_or_province +
-                            " " +
-                            add.country +
-                            " " +
-                            add.zip}
-                        </ListGroupItem>
+                          <ListGroupItem
+                            style={{
+                              backgroundColor:
+                                add.default == true ? "#009682" : "transparent",
+                            }}
+                            className={styles.listGroupItem}
+                          >
+                            <p className={styles.addP}>
+                              {add.street_address +
+                                " " +
+                                add.apartment_address +
+                                " " +
+                                add.state_or_province +
+                                " " +
+                                add.country +
+                                " " +
+                                add.zip}
+                            </p>
+                            <span className={styles.SpanAddListItem}>Edit</span>
+                          </ListGroupItem>
+                        </Link>
                       );
                     })}
                   </ListGroup>
@@ -104,23 +117,31 @@ const AccountInfoForm = ({ user, shipping_addresses, billing_addresses }) => {
                   <ListGroup className={styles.listGroup}>
                     {billing_addresses.map((add, index) => {
                       return (
-                        <ListGroupItem
-                          style={{
-                            backgroundColor:
-                              add.default == true ? "#009682" : "transparent",
-                          }}
-                          className={styles.listGroupItem}
+                        <Link
+                          key={index}
+                          href={`/account/${user.id}/manage-address/${add.id}/`}
                         >
-                          {add.street_address +
-                            " " +
-                            add.apartment_address +
-                            " " +
-                            add.state_or_province +
-                            " " +
-                            add.country +
-                            " " +
-                            add.zip}
-                        </ListGroupItem>
+                          <ListGroupItem
+                            style={{
+                              backgroundColor:
+                                add.default == true ? "#009682" : "transparent",
+                            }}
+                            className={styles.listGroupItem}
+                          >
+                            <p className={styles.addP}>
+                              {add.street_address +
+                                " " +
+                                add.apartment_address +
+                                " " +
+                                add.state_or_province +
+                                " " +
+                                add.country +
+                                " " +
+                                add.zip}
+                            </p>
+                            <span className={styles.SpanAddListItem}>Edit</span>
+                          </ListGroupItem>
+                        </Link>
                       );
                     })}
                   </ListGroup>
