@@ -8,6 +8,7 @@ import ProductsGrid from "../components/ProductsGrid";
 import ProductsSlides from "../components/ProductsSlides";
 import CategoriesGrid from "../components/CategoriesGrid";
 import Footer from "../components/Footer";
+import router from "next/router";
 
 export default function Home() {
   const [user, setUser] = useState(null);
@@ -36,7 +37,7 @@ export default function Home() {
     }
 
     // LINK try to Log in with saved credentials
-    Login(config, setUser)
+    Login(config, setUser);
 
     // LINK try to load all products and categories
     getCategories(simple_config, setCategories);
@@ -47,9 +48,13 @@ export default function Home() {
     getMostSell(simple_config, setMostSell);
   }, []);
 
-  const onSearchClicked = async(e, category_id, searchKeyword) => {
-    await onSearchClickedHandler(e, category_id, searchKeyword, setProducts)
-  }
+  const onSearchClicked = async (e, category_id, searchKeyword) => {
+    await onSearchClickedHandler(e, category_id, searchKeyword, setProducts);
+  };
+
+  const addToCartHandler = async (product_variation) => {
+    await addToCart(product_variation, user);
+  };
 
   return (
     <div className={styles.container}>
@@ -59,12 +64,16 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <NextNavbar user={user == null ? null : user} categories={categories} onSearchClicked={onSearchClicked}/>
+      <NextNavbar
+        user={user == null ? null : user}
+        categories={categories}
+        onSearchClicked={onSearchClicked}
+      />
 
       <main className={styles.main}>
         <ProductsSlides products={mostSell} />
         <CategoriesGrid categories={categories} />
-        <ProductsGrid products={products} />
+        <ProductsGrid products={products} addToCart={addToCartHandler} />
       </main>
 
       <Footer />
@@ -72,18 +81,18 @@ export default function Home() {
   );
 }
 
-const Login = async(config, setUser) => {
+const Login = async (config, setUser) => {
   const auth_user = "http://127.0.0.1:8000/customer-account/check-auth/";
   axios
     .get(auth_user, config)
     .then(async (res) => {
       const result = await res.data;
-      setUser(result)
+      setUser(result);
     })
     .catch((error) => {
       console.log(error);
     });
-}
+};
 
 const getCategories = async (config, setCategories) => {
   const categories_url = `http://127.0.0.1:8000/store/categories/`;
@@ -127,7 +136,12 @@ const getMostSell = async (config, setMostSell) => {
     });
 };
 
-const onSearchClickedHandler = async (e, category_id, searchKeyword, setProducts) => {
+const onSearchClickedHandler = async (
+  e,
+  category_id,
+  searchKeyword,
+  setProducts
+) => {
   e.preventDefault();
 
   var params = { params: { search_keyword: null } };
@@ -181,4 +195,47 @@ const onSearchClickedHandler = async (e, category_id, searchKeyword, setProducts
         console.log(error);
       });
   }
+};
+
+const addToCart = async (product_variation, user) => {
+  const id = product_variation.id;
+
+  const config = {
+    headers: { "Content-Type": "application/json" },
+  };
+
+  if (user != null && user != undefined) {
+    const token = window.localStorage.getItem("token");
+    config.headers["authorization"] = `Token ${token}`;
+    axios.defaults.headers.common["Authorization"];
+  }
+
+  var order_id = -1;
+
+  try {
+    order_id = window.localStorage.getItem("order_id");
+  } catch {
+    order_id = -1;
+  }
+
+  const body = JSON.stringify({
+    order_id,
+    quantity: 1,
+    final_color: product_variation.color_variations[0],
+  });
+
+  const add_to_cart_url = `http://127.0.0.1:8000/store/product-detail/${id}/`;
+
+  axios
+    .post(add_to_cart_url, body, config)
+    .then(async (res) => {
+      const result = await res.data["Result"];
+      if (result != "Error") {
+        window.localStorage.setItem("order_id", result);
+        router.reload();
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

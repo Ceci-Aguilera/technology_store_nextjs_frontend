@@ -1,0 +1,211 @@
+.card {
+  margin-top: 50px;
+  max-width: 80%;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  border: 10px solid #00bfa5;
+}
+
+.cardImage {
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.cardTitleContainer {
+  text-align: center;
+}
+
+.cardTitle {
+  font-size: 30px;
+  font-weight: bold;
+  color: #00bfa5;
+}
+
+.cardProductContainer {
+  margin-top: 20px;
+}
+
+.cardSectionTitle {
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.productInfoP {
+  margin: 0px;
+}
+
+.cardVariationColorSection {
+  display: flex;
+  flex-direction: row;
+}
+
+.cardColorInfo {
+  margin-top: 20px;
+}
+
+.colorBlock {
+  height: 40px;
+  width: 20px;
+  margin:6px;
+}
+
+.cardDescriptionContainer {
+  margin-top: 30px;
+}
+
+.cardDescription {
+  max-height: 300px;
+  overflow-y: scroll;
+  text-align: justify;
+  margin-bottom: 30px;
+}
+
+.inputGroupText {
+  background-color: #00bfa5;
+  border-color: white;
+  color: white;
+  font-size: 30px;
+  font-weight: bold;
+  border-radius: 0px;
+}
+
+.addAmountOfItem {
+  background-color: #00bfa5;
+  border-color: white;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+  border-radius: 0px;
+}
+
+.addAmountOfItem:hover {
+  background-color: #009682;
+  border-color: #009682;
+  font-size: 30px;
+  font-weight: bold;
+  color: white;
+}
+
+.dropdownContainer {
+  height: 300px;
+  overflow-y: scroll;
+}
+
+.cardButtonContainer {
+  margin-top: 20px;
+  text-align: right;
+}
+
+.cardButton {
+  background-color: #00bfa5;
+  color: white;
+  border-color: #00bfa5;
+  font-size: 30px;
+  font-weight: bold;
+  width: 250px;
+}
+
+.cardButton:hover,
+.cardButton:focus,
+.cardButton:after {
+  background-color: #009682;
+  border-color: #009682;
+}
+
+.cardAmountContainer {
+  margin-top: 20px;
+}
+
+/* NOTE Table */
+
+.tableContainer {
+  margin-top: 50px;
+}
+
+.table {
+  color: white;
+}
+
+.similarProductsButton {
+  background-color: #00bfa5;
+  border-color: #00bfa5;
+  color: white;
+  font-weight: bold;
+  width: 100%;
+}
+
+.similarProductsButton:hover,
+.similarProductsButton:focus,
+.similarProductsButton:after {
+  background-color: #009682;
+  border-color: #009682;
+  color: white;
+  font-weight: bold;
+}
+
+.buttonTd {
+  background-color: #009682 !important;
+}
+
+@media (max-width: 768px) {
+  .card {
+    max-width: 90%;
+  }
+
+  .cardImageCol {
+    text-align: center;
+  }
+
+  .cardTitleContainer {
+    margin-top: 20px;
+  }
+
+  .cardAmountContainer {
+    text-align: center !important;
+  }
+  .inputGroup {
+    margin-left: auto !important;
+    margin-right: auto !important;
+  }
+
+  .cardButton {
+    width: 100%;
+  }
+}
+
+@media (max-width: 1370px) and (min-width: 1024) {
+  .cardButton {
+    background-color: blue !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .cardTitle {
+    font-size: 50px;
+  }
+
+  .cardProductContainer {
+    margin-left: 50px;
+    width: auto;
+  }
+
+  .cardColorInfo {
+    margin-left: 50px;
+    width: auto;
+  }
+
+  .cardDescriptionContainer {
+    margin-left: 50px;
+    width: auto !important;
+  }
+
+  .cardButtonContainer {
+    margin-left: 50px;
+    width: auto !important;
+  }
+
+  .cardAmountContainer {
+    margin-left: 50px;
+    width: auto;
+  }
+}

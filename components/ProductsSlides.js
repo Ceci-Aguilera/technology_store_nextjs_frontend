@@ -26,34 +26,38 @@ const ProductsSlides = ({ products }) => {
   return products == null ? (
     <></>
   ) : (
-      <Carousel className={styles.carousel}>
-        {products.map((item, index) => {
-          return (
-            <Carousel.Item className={styles.carouselItem}>
+    <Carousel className={styles.carousel}>
+      {products.map((item, index) => {
+        return (
+          <Carousel.Item className={styles.carouselItem}>
+            <Container className={styles.imageContainer}>
               <img
                 key={index}
-                className={`d-block w-100 center ${styles.carouselImage}`}
+                // d-block center 
+                className={`${styles.carouselImage}`}
                 alt="No image of this product"
                 src={item.image}
               />
-              <Carousel.Caption>
-                <h1>{item.product.title}</h1>
+            </Container>
+            <Carousel.Caption>
+              <h1>{item.product.title}</h1>
 
-                <h5>
-                  {" "}
-                  {item.variations.map((variation, index) => {
-                    if (index < 4)
-                      return (
-                        variation.variation + " " +
-                        variation.variation_category.category_title
-                      );
-                  })}
-                </h5>
-              </Carousel.Caption>
-            </Carousel.Item>
-          );
-        })}
-      </Carousel>
+              <h5>
+                {" "}
+                {item.variations.map((variation, index) => {
+                  if (index < 4)
+                    return (
+                      variation.variation +
+                      " " +
+                      variation.variation_category.category_title
+                    );
+                })}
+              </h5>
+            </Carousel.Caption>
+          </Carousel.Item>
+        );
+      })}
+    </Carousel>
   );
 };
 

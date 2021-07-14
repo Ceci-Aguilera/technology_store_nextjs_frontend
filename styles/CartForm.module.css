@@ -1,0 +1,140 @@
+.card {
+  margin-top: 50px;
+  max-width: 80%;
+  background-color: transparent;
+  border-color: #00bfa5;
+  color: white;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.cardHeader {
+  font-size: 30px;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  border-color: #00bfa5;
+}
+
+.cardHeaderTitleContainer {
+  text-align: end;
+}
+
+.cardHeaderButtonContainer {
+  margin-left: auto;
+  text-align: end;
+}
+
+.cardHeaderTitle {
+  font-size: 30px;
+  font-weight: bold;
+}
+
+.cardButton {
+    background-color: #009682;
+    color: white;
+    font-weight: bold;
+    border-color: #009682;
+}
+
+.cardButton:hover,
+.cardButton:focus,
+.cardButton:after {
+    background-color: #00bfa5;
+    color: white;
+    border-color: #00bfa5;
+}
+
+.productRow {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.productImage {
+  height: 150px;
+  width: 200px;
+}
+
+.productInfoCol {
+  margin-left: 50px;
+}
+
+.productP {
+  margin: 0px;
+  color: #00bfa5;
+}
+
+.productAmount{
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.productCard,
+.productCardBody,
+.productCardFooter {
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.productCardFooter {
+  text-align: end;
+}
+
+.button {
+  background-color: #009682;
+  border-color: #009682;
+  font-weight: bold;
+  width: 200px;
+  margin-left: 30px;
+}
+
+.button:hover,
+.button:focus,
+.button:after {
+  background-color: #00bfa5;
+  border-color: #00bfa5;
+}
+
+.cardFooter {
+  text-align: end;
+}
+
+@media (max-width: 768px) {
+  .card {
+    text-align: center;
+    max-width: 90%;
+  }
+
+  .productInfoCol {
+    margin-left: 0px;
+  }
+
+  .button {
+    margin-top: 10px;
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1024px) {
+  .card {
+    text-align: right;
+  }
+
+  .productImage {
+    margin-top: 60px;
+  }
+
+  .productInfoCol {
+    margin-left: 0px;
+    margin-top: 50px;
+  }
+
+  .button {
+    margin-top: 10px;
+    width: 40%;
+    margin-left: 10px;
+    margin-right: 0px;
+  }
+}

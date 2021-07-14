@@ -19,8 +19,13 @@ import {
   Alert,
 } from "react-bootstrap";
 
-const ProductsGrid = ({ products }) => {
+const ProductsGrid = ({ products, addToCart }) => {
   const router = useRouter();
+
+  const addToCartHandler = async (e, product_variation) => {
+    e.preventDefault();
+    await addToCart(product_variation);
+  };
 
   return products == null ? (
     <></>
@@ -59,11 +64,18 @@ const ProductsGrid = ({ products }) => {
                 <Card.Footer className={styles.cardFooter}>
                   <Row>
                     <Col xs={12} lg={6}>
-                      <Button className={styles.cardButton}>Add to Cart</Button>
+                      <Button
+                        onClick={(e) => addToCartHandler(e, item)}
+                        className={styles.cardButton}
+                      >
+                        Add to Cart
+                      </Button>
                     </Col>
 
                     <Col xs={12} lg={6}>
-                      <Button className={styles.cardButton}>View</Button>
+                      <Link href={`/product-detail/${item.id}`}>
+                        <Button className={styles.cardButton}>View</Button>
+                      </Link>
                     </Col>
                   </Row>
                 </Card.Footer>

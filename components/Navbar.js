@@ -113,7 +113,7 @@ const NextNavbar = ({ user, categories, onSearchClicked }) => {
               {accountString(user)}
             </Nav.Link>
 
-            <Nav.Link className={style.navLink} href="/">
+            <Nav.Link className={style.navLink} href="/cart">
               Cart
             </Nav.Link>
 

@@ -54,7 +54,7 @@ const onClickHandler = async (config, body, setUser) => {
         setUser(result["user"]);
         const token = result["token"];
         window.localStorage.setItem("token", token);
-        router.back()
+        router.push('/')
       }
       else{
         console.log(result)
