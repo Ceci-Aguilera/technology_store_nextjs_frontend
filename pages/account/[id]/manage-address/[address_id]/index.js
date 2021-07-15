@@ -18,7 +18,7 @@ export default function AccountInfo() {
   const [add_id, setAdd_id] = useState(null);
   const [address, setAddress] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     var temp_id;
     if (id != undefined && id != null) {
       window.localStorage.setItem("user_id", id);
@@ -39,11 +39,24 @@ export default function AccountInfo() {
       setAdd_id(temp_add_id);
     }
 
-    await getUser(setUser);
-    await getAddress(temp_add_id, setAddress);
+    getUser(setUser);
+    getAddress(temp_add_id, setAddress);
   }, []);
 
-  const updateAddress = async () => {};
+  const updateAddressHandler = async (
+    body,
+    change_default,
+    address_default
+  ) => {
+    updateAddress(address.id, body, setAddress);
+    updateAddressDefault(
+      address.id,
+      change_default,
+      address_default,
+      address.address_type,
+      setAddress
+    );
+  };
 
   return user == null || address == null ? (
     <div></div>
@@ -58,14 +71,19 @@ export default function AccountInfo() {
       <NextNavbarSimple user={user == null ? null : user} login={true} />
 
       <main className={styles.main}>
-        <EditAddressForm address={address} updateAddress={updateAddress} />
+        <EditAddressForm
+          user={user}
+          address={address}
+          updateAddress={updateAddressHandler}
+        />
       </main>
       <Footer />
     </div>
   );
 }
 
-const getUser = async (setUser) => {
+// LINK get User
+const getUser = (setUser) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -80,17 +98,18 @@ const getUser = async (setUser) => {
   const auth_user = "http://127.0.0.1:8000/customer-account/check-auth/";
   axios
     .get(auth_user, config)
-    .then(async (res) => {
-      const result = await res.data;
+    .then((res) => {
+      const result = res.data;
       setUser(result);
-      return result;
+      return;
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-const getAddress = async (id, setAddress) => {
+// LINK get Address
+const getAddress = (id, setAddress) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -105,12 +124,73 @@ const getAddress = async (id, setAddress) => {
   const address_url = `http://127.0.0.1:8000/customer-account/manage-address/${id}/`;
   axios
     .get(address_url, config)
-    .then(async (res) => {
-      const result = await res.data;
+    .then((res) => {
+      const result = res.data;
       setAddress(result);
-      return result;
+      return;
     })
     .catch((error) => {
       console.log(error);
     });
+};
+
+// LINK update Address
+const updateAddress = async (id, body, setAddress) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const token = window.localStorage.getItem("token");
+
+  config.headers["authorization"] = `Token ${token}`;
+  axios.defaults.headers.common["Authorization"];
+
+  const address_url = `http://127.0.0.1:8000/customer-account/manage-address/${id}/`;
+  axios
+    .put(address_url, body, config)
+    .then(async (res) => {
+      const result = await res.data;
+      setAddress(result);
+      return;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+const updateAddressDefault = async (
+  id,
+  change_default,
+  address_default,
+  address_type,
+  setAddress
+) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const token = window.localStorage.getItem("token");
+
+  config.headers["authorization"] = `Token ${token}`;
+  axios.defaults.headers.common["Authorization"];
+  if (change_default) {
+    const new_body = JSON.stringify({
+      new_default: address_default,
+      address_type,
+    });
+    const address_default_url = `http://127.0.0.1:8000/customer-account/manage-address/create/${id}/`;
+    axios
+      .put(address_default_url, new_body, config)
+      .then(async (new_res) => {
+        const new_result = await new_res.data;
+        setAddress(new_result);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }
 };

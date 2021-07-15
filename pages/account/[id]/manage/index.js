@@ -17,7 +17,7 @@ export default function AccountInfo() {
   const [shipping_addresses, setShippingAddresses] = useState(null);
   const [billing_addresses, setBillingAddresses] = useState(null);
 
-  useEffect(async () => {
+  useEffect(() => {
     var temp_id;
     if (id != undefined && id != null) {
       window.localStorage.setItem("user_id", id);
@@ -28,10 +28,9 @@ export default function AccountInfo() {
       setUser_id(temp_id);
     }
 
-    await getUser(setUser);
-    await getAddresses(setShippingAddresses, setBillingAddresses);
+    getUser(setUser);
+    getAddresses(setShippingAddresses, setBillingAddresses);
   }, []);
-
 
   return user == null ? (
     <div></div>
@@ -58,7 +57,7 @@ export default function AccountInfo() {
   );
 }
 
-const getUser = async (setUser) => {
+const getUser = (setUser) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -73,8 +72,8 @@ const getUser = async (setUser) => {
   const auth_user = "http://127.0.0.1:8000/customer-account/check-auth/";
   axios
     .get(auth_user, config)
-    .then(async (res) => {
-      const result = await res.data;
+    .then( (res) => {
+      const result =  res.data;
       setUser(result);
       return result;
     })
@@ -83,7 +82,7 @@ const getUser = async (setUser) => {
     });
 };
 
-const getAddresses = async (setShippingAddresses, setBillingAddresses) => {
+const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -98,9 +97,9 @@ const getAddresses = async (setShippingAddresses, setBillingAddresses) => {
   const auth_user = "http://127.0.0.1:8000/customer-account/user-addresses/";
   axios
     .get(auth_user, config)
-    .then(async (res) => {
-      const shipping_addresses = await res.data["Shipping_addresses"];
-      const billing_addresses = await res.data["Billing_addresses"];
+    .then( (res) => {
+      const shipping_addresses =  res.data["Shipping_addresses"];
+      const billing_addresses =  res.data["Billing_addresses"];
       setShippingAddresses(shipping_addresses);
       setBillingAddresses(billing_addresses);
     })

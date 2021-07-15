@@ -51,7 +51,7 @@
 }
 
 .cardFooterButton {
-  width: 80%;
+  width: 100%;
   font-weight: bold;
   background-color: #009682;
   border-color: #009682;
@@ -64,6 +64,13 @@
   background-color: #00bfa5;
   border-color: #00bfa5;
 }
+
+.cardFooterButtonDelete {
+  width: 100%;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
 
 .checkboxLabel {
   color: white !important;

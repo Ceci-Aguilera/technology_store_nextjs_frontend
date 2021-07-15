@@ -19,7 +19,7 @@ import {
   Alert,
 } from "react-bootstrap";
 
-const EditAddressForm = ({ address, updateAddress }) => {
+const EditAddressForm = ({ user, address, updateAddress }) => {
   const router = useRouter();
 
   const [street_address, setStreetAddress] = useState("");
@@ -28,6 +28,7 @@ const EditAddressForm = ({ address, updateAddress }) => {
   const [country, setCountry] = useState("");
   const [zip, setZip] = useState("");
   const [address_default, setDefault] = useState(false);
+  const [address_type, setAddressType] = useState("");
 
   useEffect(() => {
     //   LINK if address is not null update options
@@ -38,6 +39,7 @@ const EditAddressForm = ({ address, updateAddress }) => {
       setCountry(address.country);
       setZip(address.zip);
       setDefault(address.default);
+      setAddressType(address.address_type);
     }
   }, []);
 
@@ -47,15 +49,23 @@ const EditAddressForm = ({ address, updateAddress }) => {
     state_or_province,
     country,
     zip,
-    default: address_default,
+    address_type,
   });
 
   const updateAddressHandler = async (e) => {
     e.preventDefault();
-    updateAddress(body);
+    var change_default = true;
+    if (address_default == address.default) {
+      change_default = false;
+    }
+
+    await updateAddress(body, change_default, address_default);
+    router.push(`/account/${user.id}/manage`);
   };
 
-  return (
+  return address == null ? (
+    <div></div>
+  ) : (
     <Container>
       <Card className={styles.card}>
         <Card.Header className={styles.cardHeader}>Address</Card.Header>
@@ -145,7 +155,7 @@ const EditAddressForm = ({ address, updateAddress }) => {
                     type="checkbox"
                     isValid
                     onChange={() => setDefault(!address_default)}
-                    checked = {address_default}
+                    checked={address_default}
                   />
                   <Form.Check.Label className={styles.checkboxLabel}>
                     Set this address as default
@@ -156,13 +166,30 @@ const EditAddressForm = ({ address, updateAddress }) => {
           </Form>
         </Card.Body>
         <Card.Footer className={styles.cardFooter}>
-          <Button
-            onClick={updateAddress}
-            size="lg"
-            className={styles.cardFooterButton}
-          >
-            Save
-          </Button>
+          <Row>
+            <Col xs={6} sm={6} md={6} lg={6}>
+              <Button
+                onClick={updateAddressHandler}
+                variant="danger"
+                size="lg"
+                className={styles.cardFooterButtonDelete}
+              >
+                Delete
+              </Button>
+            </Col>
+
+            <Col xs={6} sm={6} md={6} lg={6}>
+              <Button
+                onClick={(e) => {
+                  updateAddressHandler(e);
+                }}
+                size="lg"
+                className={styles.cardFooterButton}
+              >
+                Save
+              </Button>
+            </Col>
+          </Row>
         </Card.Footer>
       </Card>
     </Container>
