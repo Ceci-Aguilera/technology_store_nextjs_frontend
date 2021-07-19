@@ -36,9 +36,9 @@ const ResetPasswordForm = ({ onResetPassword }) => {
   };
 
   return (
-    <Container>
+    <Container className={styles.containerCard}>
       <Card className={styles.card}>
-        <Card.Header className={styles.cardHeader}>Register</Card.Header>
+        <Card.Header className={styles.cardHeader}>Reset Password</Card.Header>
         <Card.Body>
           <Form className={styles.form}>
 

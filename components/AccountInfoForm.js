@@ -22,8 +22,18 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import router from "next/router";
 
-const AccountInfoForm = ({ user, shipping_addresses, billing_addresses }) => {
+const AccountInfoForm = ({
+  user,
+  shipping_addresses,
+  billing_addresses,
+  onResetPassword,
+}) => {
   useEffect(() => {});
+
+  const onResetPasswordHandler = async (e) => {
+    e.preventDefault();
+    await onResetPassword();
+  };
 
   return user == null ? (
     <div></div>
@@ -54,7 +64,10 @@ const AccountInfoForm = ({ user, shipping_addresses, billing_addresses }) => {
                       </Link>
                     </Col>
                     <Col xs={12} sm={12} md={6} lg={6}>
-                      <Button className={styles.buttonPersonalInfo}>
+                      <Button
+                        onClick={(e) => onResetPasswordHandler(e)}
+                        className={styles.buttonPersonalInfo}
+                      >
                         Reset Password
                       </Button>
                     </Col>

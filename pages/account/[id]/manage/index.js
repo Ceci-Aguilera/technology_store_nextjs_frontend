@@ -53,6 +53,7 @@ export default function AccountInfo() {
           user={user}
           shipping_addresses={shipping_addresses}
           billing_addresses={billing_addresses}
+          onResetPassword={onResetPasswordHandler}
         />
       </main>
 
@@ -61,6 +62,7 @@ export default function AccountInfo() {
   );
 }
 
+// NOTE get user
 const getUser = (setUser) => {
   const config = {
     headers: {
@@ -86,6 +88,7 @@ const getUser = (setUser) => {
     });
 };
 
+// NOTE get address
 const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
   const config = {
     headers: {
@@ -113,7 +116,7 @@ const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
 };
 
 // NOTE Reset password
-const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
+const onResetPassword =  async(setShippingAddresses, setBillingAddresses) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -125,9 +128,11 @@ const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
   config.headers["authorization"] = `Token ${token}`;
   axios.defaults.headers.common["Authorization"];
 
-  const reset_password = "http://127.0.0.1:8000/customer-account/reset-password/";
+  const body= JSON.stringify({})
+
+  const reset_password_url = "http://127.0.0.1:8000/customer-account/reset-password/";
   axios
-    .get(reset_password, config)
+    .post(reset_password_url, body, config)
     .then( async(res) => {
       const result = await res.data;
       console.log(result)
