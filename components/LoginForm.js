@@ -19,7 +19,7 @@ import {
   Alert,
 } from "react-bootstrap";
 
-const LoginForm = ({ Login, onClick }) => {
+const LoginForm = ({ Login, onClick, onResetPassword }) => {
   const router = useRouter();
 
   const [email, setEmail] = useState("");
@@ -36,6 +36,15 @@ const LoginForm = ({ Login, onClick }) => {
     e.preventDefault();
     onClick(body);
   };
+
+  const onResetPasswordHandler = async (e) => {
+    e.preventDefault();
+    const reset_body = JSON.stringify({
+      email,
+    });
+    await onResetPassword(reset_body);
+  };
+
 
   return (
     <Container>
@@ -86,6 +95,12 @@ const LoginForm = ({ Login, onClick }) => {
             <Link href="/register">
               <a className={styles.a}>Register</a>
             </Link>
+          </p>
+
+          <p className={styles.p}>
+            If you forgot your password click on {" "}
+              <span onClick={(e) => {onResetPasswordHandler(e)}} className={styles.a}>Reset Password</span>{" "},
+              and check your email.
           </p>
         </Card.Footer>
       </Card>

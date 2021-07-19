@@ -46,7 +46,7 @@ const NextNavbarSimple = ({ user, login }) => {
 
   const LogoutHandler = async () => {
     Logout();
-    router.reload();
+    router.push('/');
   };
   
   return (

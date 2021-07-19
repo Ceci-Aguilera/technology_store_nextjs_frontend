@@ -34,7 +34,7 @@ const NextNavbar = ({ user, categories, onSearchClicked }) => {
 
   const LogoutHandler = async () => {
     Logout();
-    router.reload();
+    router.push('/');
   };
 
   return categories == null ? (

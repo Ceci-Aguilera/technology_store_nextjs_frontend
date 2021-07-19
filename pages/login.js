@@ -25,6 +25,11 @@ export default function Login() {
     await onClickHandler(config, body, setUser);
   };
 
+  const onResetPasswordHandler = async (body) => {
+    await onResetPassword(body);
+    router.reload()
+  };
+
   return (
     <div className={styles.container}>
       <Head>
@@ -36,7 +41,7 @@ export default function Login() {
       <NextNavbarSimple user={user == null ? null : user} login={true} />
 
       <main className={styles.main}>
-        <LoginForm onClick={onClick} />
+        <LoginForm onClick={onClick} onResetPassword={onResetPasswordHandler}/>
       </main>
 
       <Footer />
@@ -59,6 +64,26 @@ const onClickHandler = async (config, body, setUser) => {
       else{
         console.log(result)
       }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+// NOTE reset password
+const onResetPassword =  async(body) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const reset_password_url = "http://127.0.0.1:8000/customer-account/reset-password/";
+  console.log(body)
+  axios
+    .post(reset_password_url, body, config)
+    .then( async(res) => {
+      const result = await res.data;
     })
     .catch((error) => {
       console.log(error);

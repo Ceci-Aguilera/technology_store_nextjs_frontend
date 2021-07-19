@@ -116,7 +116,7 @@ const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
 };
 
 // NOTE Reset password
-const onResetPassword =  async(setShippingAddresses, setBillingAddresses) => {
+const onResetPassword =  async() => {
   const config = {
     headers: {
       "Content-Type": "application/json",
