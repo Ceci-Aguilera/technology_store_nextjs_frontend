@@ -1,0 +1,80 @@
+.card{
+    margin-top: 50px;
+    margin-left: auto !important;
+    margin-right: auto !important;
+    background-color: #263238;
+    color: white;
+    border-color: #00BFA5;
+    max-width: 800px;
+}
+
+.cardHeader{
+    border-color: #00BFA5;
+    font-size: 30px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.formGroup{
+    margin-top: 20px;
+    width: 80%;
+    margin-left: auto !important;
+    margin-right: auto !important;
+}
+
+.formLabel{
+    font-weight: bold;
+}
+
+.formControl{
+    background-color: transparent;
+    color:white;
+    border:transparent;
+    border-bottom: 3px solid white !important;
+    border-radius: 0%;
+}
+
+.formControl:hover,
+.formControl:active,
+.formControl:focus,
+.formControl:after{
+    background-color: transparent;
+    color:white;
+    border:transparent;
+    border-bottom: 3px solid white !important;
+    border-radius: 0%;
+}
+
+.cardFooter{
+    margin-top:50px;
+    text-align: center;
+}
+
+.cardFooterButton{
+    width: 80%;
+    font-weight: bold;
+    background-color: #009682;
+    border-color: #009682;
+}
+
+.cardFooterButton:hover, 
+.cardFooterButton:focus,
+.cardFooterButton:after{
+    background-color: #00BFA5;
+    border-color: #00BFA5;
+}
+
+.p{
+    margin-top:25px;
+}
+
+.a{
+    color: #00BFA5;
+    text-decoration-color: #00BFA5;
+    font-weight: bold;
+}
+
+.a:hover{
+    color: #009682;
+    text-decoration-color: #009682;
+}

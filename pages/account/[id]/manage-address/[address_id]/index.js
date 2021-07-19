@@ -9,7 +9,7 @@ import router from "next/router";
 import { useRouter } from "next/router";
 import EditAddressForm from "../../../../../components/EditAddressForm";
 
-export default function AccountInfo() {
+export default function AddressEdit() {
   const [user, setUser] = useState(null);
   const router = useRouter();
   const { id } = router.query;
@@ -58,6 +58,10 @@ export default function AccountInfo() {
     );
   };
 
+  const deleteAddressHandler = async () => {
+    deleteAddress(address.id);
+  };
+
   return user == null || address == null ? (
     <div></div>
   ) : (
@@ -75,6 +79,8 @@ export default function AccountInfo() {
           user={user}
           address={address}
           updateAddress={updateAddressHandler}
+          createAddress={null}
+          deleteAddress={deleteAddressHandler}
         />
       </main>
       <Footer />
@@ -193,4 +199,27 @@ const updateAddressDefault = async (
         console.log(error);
       });
   }
+};
+
+const deleteAddress = async (id) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  const token = window.localStorage.getItem("token");
+
+  config.headers["authorization"] = `Token ${token}`;
+  axios.defaults.headers.common["Authorization"];
+
+  const address_default_url = `http://127.0.0.1:8000/customer-account/manage-address/${id}/`;
+  axios
+    .delete(address_default_url, config)
+    .then(async (res) => {
+      const result = await res.data;
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };

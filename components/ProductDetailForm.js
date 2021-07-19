@@ -52,7 +52,7 @@ const ProductDetailForm = ({
     await addToCart(product, final_color, quantity);
   };
 
-  // NOTE Component Helper
+  // NOTE Component Helper  
   const DropdownItems = () => {
     return arr == null ? (
       <div></div>

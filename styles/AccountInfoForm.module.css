@@ -17,6 +17,29 @@
   font-weight: bold;
 }
 
+.buttonPersonalInfo {
+  background-color: #009682;
+  border-color: #009682;
+  color: white;
+  width: 200px;
+}
+
+.buttonPersonalInfo:hover,
+.buttonPersonalInfo:focus,
+.buttonPersonalInfo:after {
+  background-color: #00bfa5;
+  border-color: #00bfa5;
+  color: white;
+  width: 200px;
+}
+
+@media (max-width: 768px) {
+  .buttonPersonalInfo {
+    margin-top: 10px;
+    width: 100%;
+  }
+}
+
 .SubSectionCol {
   margin-top: 20px;
 }
@@ -37,11 +60,11 @@
   font-weight: bold;
 }
 
-.spanSectionSubHeaderAdd:hover{
-    color: #009682;
-    font-weight: bold;
-    cursor: pointer;
-  }
+.spanSectionSubHeaderAdd:hover {
+  color: #009682;
+  font-weight: bold;
+  cursor: pointer;
+}
 
 .listGroup {
   width: 80%;
@@ -53,14 +76,14 @@
   justify-content: space-between;
 }
 
-.addP{
-  margin:0 !important;
+.addP {
+  margin: 0 !important;
 }
 
-.SpanAddListItem{
+.SpanAddListItem {
   font-weight: bold;
 }
 
-.listGroupItem:hover .SpanAddListItem{
+.listGroupItem:hover .SpanAddListItem {
   font-size: 1.1em;
 }

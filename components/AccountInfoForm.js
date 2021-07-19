@@ -22,12 +22,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import router from "next/router";
 
-const AccountInfoForm = ({
-  user,
-  shipping_addresses,
-  billing_addresses,
-  onAddressClick,
-}) => {
+const AccountInfoForm = ({ user, shipping_addresses, billing_addresses }) => {
   useEffect(() => {});
 
   return user == null ? (
@@ -44,7 +39,29 @@ const AccountInfoForm = ({
             <li>First Name: {user.first_name}</li>
             <li>Last Name: {user.last_name}</li>
             <li>Email Address: {user.email}</li>
-            <li>Phone Number: {user.phone}</li>
+            <li>
+              <Row>
+                <Col xs={12} sm={12} md={6} lg={6}>
+                  Phone Number: {user.phone}
+                </Col>
+                <Col xs={12} sm={12} md={6} lg={6}>
+                  <Row>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                      <Link href={`/account/${user.id}/customer-info`}>
+                        <Button className={styles.buttonPersonalInfo}>
+                          Edit
+                        </Button>
+                      </Link>
+                    </Col>
+                    <Col xs={12} sm={12} md={6} lg={6}>
+                      <Button className={styles.buttonPersonalInfo}>
+                        Reset Password
+                      </Button>
+                    </Col>
+                  </Row>
+                </Col>
+              </Row>
+            </li>
           </ul>
           <span className={styles.spanSectionHeader}>Payment Info:</span>
           <Row>
@@ -59,10 +76,11 @@ const AccountInfoForm = ({
                     <span className={styles.spanSectionSubHeader}>
                       Shipping Address
                     </span>
-
-                    <span className={styles.spanSectionSubHeaderAdd}>
-                      Add +
-                    </span>
+                    <Link href={`/account/${user.id}/create-address/`}>
+                      <span className={styles.spanSectionSubHeaderAdd}>
+                        Add +
+                      </span>
+                    </Link>
                   </Container>
                   <ListGroup className={styles.listGroup}>
                     {shipping_addresses.map((add, index) => {
@@ -109,10 +127,11 @@ const AccountInfoForm = ({
                     <span className={styles.spanSectionSubHeader}>
                       Billing Address
                     </span>
-
-                    <span className={styles.spanSectionSubHeaderAdd}>
-                      Add +
-                    </span>
+                    <Link href={`/account/${user.id}/create-address/`}>
+                      <span className={styles.spanSectionSubHeaderAdd}>
+                        Add +
+                      </span>
+                    </Link>
                   </Container>
                   <ListGroup className={styles.listGroup}>
                     {billing_addresses.map((add, index) => {

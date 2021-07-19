@@ -19,7 +19,13 @@ import {
   Alert,
 } from "react-bootstrap";
 
-const EditAddressForm = ({ user, address, updateAddress }) => {
+const EditAddressForm = ({
+  user,
+  address,
+  updateAddress,
+  createAddress,
+  deleteAddress,
+}) => {
   const router = useRouter();
 
   const [street_address, setStreetAddress] = useState("");
@@ -40,6 +46,8 @@ const EditAddressForm = ({ user, address, updateAddress }) => {
       setZip(address.zip);
       setDefault(address.default);
       setAddressType(address.address_type);
+    } else {
+      setAddressType("S");
     }
   }, []);
 
@@ -52,18 +60,41 @@ const EditAddressForm = ({ user, address, updateAddress }) => {
     address_type,
   });
 
-  const updateAddressHandler = async (e) => {
+  const deleteAddressHandler = async (e) => {
     e.preventDefault();
-    var change_default = true;
-    if (address_default == address.default) {
-      change_default = false;
-    }
 
-    await updateAddress(body, change_default, address_default);
+    await deleteAddress();
+
     router.push(`/account/${user.id}/manage`);
   };
 
-  return address == null ? (
+  const onSaveHandler = async (e) => {
+    e.preventDefault();
+    if (updateAddress != null) {
+      var change_default = true;
+      if (address_default == address.default) {
+        change_default = false;
+      }
+
+      await updateAddress(body, change_default, address_default);
+    } else {
+      await createAddress(body);
+    }
+
+    router.push(`/account/${user.id}/manage`);
+  };
+
+  const onAddressTypeChange = (e) => {
+    if (e.target.value == "on") {
+      var new_address_type = "S";
+      if (new_address_type == address_type) {
+        new_address_type = "B";
+      }
+      setAddressType(new_address_type);
+    }
+  };
+
+  return user == null ? (
     <div></div>
   ) : (
     <Container>
@@ -143,52 +174,100 @@ const EditAddressForm = ({ user, address, updateAddress }) => {
                 onChange={(e) => setZip(e.target.value)}
               />
             </Form.Group>
+            {updateAddress != null ? (
+              <Form.Group
+                size="lg"
+                controlId="address_default"
+                className={styles.formGroup}
+              >
+                <div className="mb-3">
+                  <Form.Check type="checkbox">
+                    <Form.Check.Input
+                      type="checkbox"
+                      isValid
+                      onChange={() => setDefault(!address_default)}
+                      checked={address_default}
+                    />
+                    <Form.Check.Label className={styles.checkboxLabel}>
+                      Set this address as default
+                    </Form.Check.Label>
+                  </Form.Check>
+                </div>
+              </Form.Group>
+            ) : (
+              <>
+                <Form.Group
+                  size="lg"
+                  controlId="address_type"
+                  className={styles.formGroup}
+                >
+                  <div className="mb-3">
+                    <Form.Check type="radio">
+                      <Form.Check.Input
+                        type="radio"
+                        isValid
+                        checked={address_type == "S"}
+                        onChange={(e) => onAddressTypeChange(e)}
+                      />
+                      <Form.Check.Label className={styles.checkboxLabel}>
+                        Shipping
+                      </Form.Check.Label>
+                    </Form.Check>
 
-            <Form.Group
-              size="lg"
-              controlId="address_default"
-              className={styles.formGroup}
-            >
-              <div className="mb-3">
-                <Form.Check type="checkbox">
-                  <Form.Check.Input
-                    type="checkbox"
-                    isValid
-                    onChange={() => setDefault(!address_default)}
-                    checked={address_default}
-                  />
-                  <Form.Check.Label className={styles.checkboxLabel}>
-                    Set this address as default
-                  </Form.Check.Label>
-                </Form.Check>
-              </div>
-            </Form.Group>
+                    <Form.Check type="radio">
+                      <Form.Check.Input
+                        type="radio"
+                        isValid
+                        checked={address_type == "B"}
+                        onChange={(e) => onAddressTypeChange(e)}
+                      />
+                      <Form.Check.Label className={styles.checkboxLabel}>
+                        Billing
+                      </Form.Check.Label>
+                    </Form.Check>
+                  </div>
+                </Form.Group>
+              </>
+            )}
           </Form>
         </Card.Body>
         <Card.Footer className={styles.cardFooter}>
           <Row>
-            <Col xs={6} sm={6} md={6} lg={6}>
-              <Button
-                onClick={updateAddressHandler}
-                variant="danger"
-                size="lg"
-                className={styles.cardFooterButtonDelete}
-              >
-                Delete
-              </Button>
-            </Col>
-
-            <Col xs={6} sm={6} md={6} lg={6}>
+            {updateAddress != null ? (
+              <>
+                <Col xs={6} sm={6} md={6} lg={6}>
+                  <Button
+                    onClick={(e) => deleteAddressHandler(e)}
+                    variant="danger"
+                    size="lg"
+                    className={styles.cardFooterButtonDelete}
+                  >
+                    Delete
+                  </Button>
+                </Col>
+                <Col xs={6} sm={6} md={6} lg={6}>
+                  <Button
+                    onClick={(e) => {
+                      onSaveHandler(e);
+                    }}
+                    size="lg"
+                    className={styles.cardFooterButton}
+                  >
+                    Save
+                  </Button>
+                </Col>
+              </>
+            ) : (
               <Button
                 onClick={(e) => {
-                  updateAddressHandler(e);
+                  onSaveHandler(e);
                 }}
                 size="lg"
-                className={styles.cardFooterButton}
+                className={styles.cardFooterButtonSave}
               >
                 Save
               </Button>
-            </Col>
+            )}
           </Row>
         </Card.Footer>
       </Card>

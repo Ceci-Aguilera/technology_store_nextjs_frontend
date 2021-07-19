@@ -5,17 +5,15 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import Footer from "../../../../components/Footer";
 import NextNavbarSimple from "../../../../components/NavbarSimple";
-import AccountInfoForm from "../../../../components/AccountInfoForm";
 import router from "next/router";
 import { useRouter } from "next/router";
+import EditAddressForm from '../../../../components/EditAddressForm'
 
-export default function AccountInfo() {
+export default function CreateAddress() {
   const [user, setUser] = useState(null);
   const router = useRouter();
   const { id } = router.query;
   const [user_id, setUser_id] = useState(null);
-  const [shipping_addresses, setShippingAddresses] = useState(null);
-  const [billing_addresses, setBillingAddresses] = useState(null);
 
   useEffect(() => {
     var temp_id;
@@ -29,14 +27,13 @@ export default function AccountInfo() {
     }
 
     getUser(setUser);
-    getAddresses(setShippingAddresses, setBillingAddresses);
   }, []);
 
-  const onResetPasswordHandler = async() => {
-    await onResetPassword()
-  }
+  const createAddressHandler = async (body) => {
+    createAddress(body);
+  };
 
-  return user == null ? (
+  return user == null?(
     <div></div>
   ) : (
     <div className={styles.container}>
@@ -49,18 +46,20 @@ export default function AccountInfo() {
       <NextNavbarSimple user={user == null ? null : user} login={true} />
 
       <main className={styles.main}>
-        <AccountInfoForm
+        <EditAddressForm
           user={user}
-          shipping_addresses={shipping_addresses}
-          billing_addresses={billing_addresses}
+          address={null}
+          updateAddress={null}
+          createAddress={createAddressHandler}
+          deleteAddress={null}
         />
       </main>
-
       <Footer />
     </div>
   );
 }
 
+// LINK get User
 const getUser = (setUser) => {
   const config = {
     headers: {
@@ -76,17 +75,18 @@ const getUser = (setUser) => {
   const auth_user = "http://127.0.0.1:8000/customer-account/check-auth/";
   axios
     .get(auth_user, config)
-    .then( (res) => {
-      const result =  res.data;
+    .then((res) => {
+      const result = res.data;
       setUser(result);
-      return result;
+      return;
     })
     .catch((error) => {
       console.log(error);
     });
 };
 
-const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
+// LINK update Address
+const createAddress = async (body, setAddress) => {
   const config = {
     headers: {
       "Content-Type": "application/json",
@@ -98,39 +98,12 @@ const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
   config.headers["authorization"] = `Token ${token}`;
   axios.defaults.headers.common["Authorization"];
 
-  const auth_user = "http://127.0.0.1:8000/customer-account/user-addresses/";
+  const address_url = `http://127.0.0.1:8000/customer-account/manage-address/create/`;
   axios
-    .get(auth_user, config)
-    .then( (res) => {
-      const shipping_addresses =  res.data["Shipping_addresses"];
-      const billing_addresses =  res.data["Billing_addresses"];
-      setShippingAddresses(shipping_addresses);
-      setBillingAddresses(billing_addresses);
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-};
-
-// NOTE Reset password
-const getAddresses =  (setShippingAddresses, setBillingAddresses) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
-
-  const token = window.localStorage.getItem("token");
-
-  config.headers["authorization"] = `Token ${token}`;
-  axios.defaults.headers.common["Authorization"];
-
-  const reset_password = "http://127.0.0.1:8000/customer-account/reset-password/";
-  axios
-    .get(reset_password, config)
-    .then( async(res) => {
+    .post(address_url, body, config)
+    .then(async (res) => {
       const result = await res.data;
-      console.log(result)
+      return;
     })
     .catch((error) => {
       console.log(error);

@@ -75,3 +75,20 @@
 .checkboxLabel {
   color: white !important;
 }
+
+.cardFooterButtonSave{
+  width: 80%;
+  font-weight: bold;
+  background-color: #009682;
+  border-color: #009682;
+  margin-bottom: 20px;
+  margin-left: auto !important;
+  margin-right: auto !important;
+}
+
+.cardFooterButtonSave:hover,
+.cardFooterButtonSave:focus,
+.cardFooterButtonSave:after {
+  background-color: #00bfa5;
+  border-color: #00bfa5;
+}
